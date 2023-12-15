@@ -5,10 +5,10 @@ use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
 //Load composer's autoloader and dotenv which loads .env files
-require 'init.php';
+require './utils/init.php';
 
-require 'jwt_functions.php';
-require 'connectToDb.php';
+require './config/connectToDb.php';
+require './config/jwt_functions.php';
 
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: {$_ENV['ALLOWED_ORIGIN']}");

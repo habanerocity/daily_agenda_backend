@@ -1,10 +1,10 @@
 <?php
 
 //Connect to db
-include 'connectToDb.php';
+require './config/connectToDb.php';
 
 //Load composer's autoloader and dotenv which loads .env files
-require 'init.php';
+require './utils/init.php';
 
 //Set headers
 header("Access-Control-Allow-Origin: {$_ENV['ALLOWED_ORIGIN']}");

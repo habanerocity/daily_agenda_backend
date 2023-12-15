@@ -3,10 +3,10 @@
 use Firebase\JWT\JWT;
 
 //Load composer's autoloader and dotenv which loads .env files
-require 'init.php';
+require './utils/init.php';
 
-require 'connectToDb.php';
-require 'jwt_functions.php';
+require './config/connectToDb.php';
+require './config/jwt_functions.php';
 
 //Set headers
 header("Access-Control-Allow-Origin: {$_ENV['ALLOWED_ORIGIN']}");

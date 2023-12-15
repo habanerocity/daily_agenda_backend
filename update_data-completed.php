@@ -7,25 +7,26 @@ use Firebase\JWT\Key;
 //Load composer's autoloader and dotenv which loads .env files
 require 'init.php';
 
-//Connect to db
+require 'jwt_functions.php';
 require 'connectToDb.php';
 
 //Function to set headers
-function setHeaders(){
-    header("Content-Type: application/json");
-    header("Access-Control-Allow-Origin: http://localhost:3000");
-    header("Access-Control-Allow-Methods: POST, OPTIONS");
-    header("Access-Control-Allow-Headers: Content-Type, Authorization");
-}
+header("Content-Type: application/json");
+header("Access-Control-Allow-Origin: {$_ENV['ALLOWED_ORIGIN']}");
+header("Access-Control-Allow-Methods: POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
 // Check if it's an OPTIONS request and handle it
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    setHeaders();
     header("HTTP/1.1 200 OK");
     exit();
 }
 
-setHeaders();
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    echo json_encode(["error" => "Method Not Allowed"]);
+    exit();
+}
 
 // Check if Authorization header is present
 if (!isset($_SERVER['HTTP_AUTHORIZATION'])) {
@@ -40,10 +41,10 @@ $token = substr($token, 7);
 $key = $_ENV['JWT_KEY'];
 
 try {
-    // Verify and decode the token
-    $decoded = JWT::decode($token, new Key($key, 'HS256'));
+    // Verify and decode jwt
+    $decoded = verifyJWT($token);
 
-    // Extract user ID from jwt
+    //Extract userID from jwt
     $userId = $decoded->user_id;
     
     // Connect to the database

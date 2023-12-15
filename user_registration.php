@@ -3,21 +3,19 @@
 //Connect to db
 include 'connectToDb.php';
 
-//Function to set headers
-function setHeaders(){
-    header("Access-Control-Allow-Origin: http://localhost:3000");
-    header("Access-Control-Allow-Headers: Content-Type");
-    header("Access-Control-Allow-Methods: POST, OPTIONS");
-}
+//Load composer's autoloader and dotenv which loads .env files
+require 'init.php';
+
+//Set headers
+header("Access-Control-Allow-Origin: {$_ENV['ALLOWED_ORIGIN']}");
+header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Methods: POST, OPTIONS");
 
 //Check if it's an OPTIONS request and handle it
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-   setHeaders();
    header("HTTP/1.1 200 OK");
-   exit;
+   exit();
 }
-
-setHeaders();
 
 try {
     //Connect to db
@@ -42,11 +40,11 @@ try {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
             http_response_code(400); //Bad Request
             echo json_encode(["error" => "Invalid email format!"]);
-            exit;      
+            exit();      
         } else if (strlen($password) < 8) {
             http_response_code(400); //Bad Request
             echo json_encode(["error" => "Password must be atleast 8 characters long!"]);
-            exit;
+            exit();
         }
 
         //Sanitize user input
@@ -84,7 +82,7 @@ try {
         //Server response if registration unsuccessful
         http_response_code(400); //Bad request
         echo json_encode(["error" => "Invalid request data"]);
-        exit;
+        exit();
     }
 
 } catch (PDOException $e) {

@@ -3,40 +3,46 @@
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
-// Function to generate a JWT
-function generateJWT($data, $sessionData) {
-    $key = 'your_secret_key';
+//Generate jwt token
+function generateJwtToken($userId, $username)
+{
+     //Replace with your secret key
+    $key = $_ENV['JWT_KEY'];
+    $serverName = $_ENV['SERVER_NAME'];
 
-    // Set the issued at, expiration, and server name claims
     $issuedAt   = new DateTimeImmutable();
     $expire     = $issuedAt->modify('+1 day')->getTimestamp();
-    $serverName = "your.domain.name";
+    
+    $token = [
+        'iat'  => $issuedAt->getTimestamp(),         // Issued at: time when the token was generated
+        'iss'  => $serverName,                       // Issuer
+        'nbf'  => $issuedAt->getTimestamp(),         // Not before
+        'exp'  => $expire,                           // Expiration
+        'user_id' => $userId,
+        'username' => $username,
+    ];
 
-    $dataToEncode = array(
-        'iat' => $issueAt->getTimestamp(),
-        'exp' => $expire,
-        'iss' => $serverName,
-        'userData' => $userData
-    );
+    try {
+        return JWT::encode($token, $key, 'HS256');
+    } catch (Exception $e) {
+        error_log($e->getMessage());
+        return ['error' => 'jwt_encoding_error'];
+    }
 
-    //Encode jwt
-    $token = JWT::encode($dataToEncode, new Key($key, 'HS256'));
-
-    //Return token
-    return $token;
 }
 
 // Function to verify and decode a JWT
 function verifyJWT($token) {
-    $key = getenv('JWT_KEY');
+    $key = $_ENV['JWT_KEY'];
     
     try {
         $decoded = JWT::decode($token, new Key($key, 'HS256'));
         return $decoded;
     } catch (Exception $e) {
-        // Handle JWT verification failure, e.g., log error
-        error_log('JWT Verification Error: ' . $e->getMessage());
-        return null;
+        error_log($e->getMessage());
+        http_response_code(401);
+        echo json_encode(["error" => 'Invalid token']);
+        exit;
     }
 }
 

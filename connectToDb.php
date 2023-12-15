@@ -1,13 +1,9 @@
 <?php
 
 function connectToDatabase() {
-    $db_host = 'localhost';
-    $db_user = 'root';
-    $db_password = 'root';
-    $db_db = 'daily_agenda_todo';
-
+ 
     try {
-        $pdo = new PDO("mysql:host=$db_host;dbname=$db_db", $db_user, $db_password);
+        $pdo = new PDO("mysql:host={$_ENV['DB_HOST']};dbname={$_ENV['DB_DB']}", $_ENV['DB_USER'], $_ENV['DB_PASSWORD']);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $pdo;
     } catch (PDOException $e) {

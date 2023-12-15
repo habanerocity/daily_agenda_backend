@@ -1,23 +1,25 @@
 <?php
 
-// Include Firebase JWT Library
 use Firebase\JWT\JWT;
 
 //Load composer's autoloader and dotenv which loads .env files
 require 'init.php';
 
-//Connect to db
-include 'connectToDb.php';
+require 'connectToDb.php';
+require 'jwt_functions.php';
 
-header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: http://localhost:3000");
+//Set headers
+header("Access-Control-Allow-Origin: {$_ENV['ALLOWED_ORIGIN']}");
 header("Access-Control-Allow-Headers: Content-Type");
-header("Access-Control-Allow-Methods: POST, GET");
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 
-//Start session
-session_start();
+//Check if it's an OPTIONS request and handle it
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+   header("HTTP/1.1 200 OK");
+   exit();
+}
 
-//Connect to db and authenticate user logging in
+//Connect to db and authenticate user login
 try {
 
     //Connect to db
@@ -71,19 +73,23 @@ try {
 
         if ($row) {
             if (password_verify($pass, $row['password'])) {
-                //Set session variables
-                $_SESSION["user_id"] = $row['id'];
-                $_SESSION["username"] = $row['username'];
-                $_SESSION["full_name"] = $row['full_name'];
+            
+                try {
+                    //Generate a JWT token
+                    $token = generateJwtToken($row['id'], $row['username']);
 
-                //Create a JWT token
-                $token = generateJwtToken($row['id'], $row['username']);
+                    //Response upon successful login
+                    $result = "Successful login! Redirecting...";
+                    echo json_encode(["result" => $result, "token" => $token, "full_name" => $row['full_name'] ]);
+                } catch (Exception $e) {
+                    //Response upon JWT error
+                    $result = "Failed to generate JWT Token: " . $e->getMessage();
+                    echo json_encode(["error" => $result]);
+                    exit;
+                }
 
-                //Response upon successful login
-                $result = "Successful login! Redirecting...";
-                echo json_encode(["result" => $result, "token" => $token, "full_name" => $_SESSION["full_name"] ]);
             } else {
-                //Response upon unsuccessful login
+                //Response upon invalid password
                 $result = "Invalid password!";
                 echo json_encode(["result" => $result]);
             }
@@ -103,29 +109,4 @@ try {
     echo json_encode(["error" => $result]);
 }
 
-//Generate jwt token
-function generateJwtToken($userId, $username)
-{
-     //Replace with your secret key
-    $key = $_ENV['JWT_KEY'];
-
-    // Log JWT key to error log
-    error_log("JWT Key: " . $key);
-
-    $issuedAt   = new DateTimeImmutable();
-    $expire     = $issuedAt->modify('+1 day')->getTimestamp();
-    $serverName = "your.domain.name";
-    
-
-    $token = [
-        'iat'  => $issuedAt->getTimestamp(),         // Issued at: time when the token was generated
-        'iss'  => $serverName,                       // Issuer
-        'nbf'  => $issuedAt->getTimestamp(),         // Not before
-        'exp'  => $expire,                           // Expiration
-        'user_id' => $userId,
-        'username' => $username,
-    ];
-
-    return JWT::encode($token, $key, 'HS256');
-}
 ?>

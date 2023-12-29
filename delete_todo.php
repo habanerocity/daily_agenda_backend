@@ -12,7 +12,7 @@ require './config/jwt_functions.php';
 header('Content-Type: application/json');
 header("Access-Control-Allow-Origin: {$_ENV['ALLOWED_ORIGIN']}");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Methods: POST, OPTIONS");
+header("Access-Control-Allow-Methods: DELETE, OPTIONS");
 
 //Check if it's an OPTIONS request and handle it
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
    exit();
 }
 
-if($_SERVER['REQUEST_METHOD'] !== 'POST') {
+if($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
     http_response_code(405);
     echo json_encode(["error" => "Method Not Allowed"]);
     exit();

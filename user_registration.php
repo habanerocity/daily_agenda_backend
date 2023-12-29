@@ -63,7 +63,7 @@ try {
         //Guard clause in case email already exists
         if ($stmt->rowCount() > 0) {
             http_response_code(400); // Bad request
-            echo json_encode(["error" => "Email already exists"]);
+            echo json_encode(["error" => "Email already exists!"]);
             exit();
         }
     

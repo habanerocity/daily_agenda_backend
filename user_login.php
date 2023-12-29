@@ -48,14 +48,14 @@ try {
         //Validate email($user) field
         if (!filter_var($user, FILTER_VALIDATE_EMAIL)) {
             $result = "Invalid email format!";
-            echo json_encode(["error" => $result]);
+            echo json_encode(["username_error" => $result]);
             exit;
         }
 
         //Validate password($pass) field
         if(strlen($pass) < 8){
-            $result = "Password must be atleast 8 characters long!";
-            echo json_encode(["error" => $result]);
+            $result = "Invalid Password!";
+            echo json_encode(["pass_error" => $result]);
             exit;
         }
 
@@ -91,12 +91,12 @@ try {
             } else {
                 //Response upon invalid password
                 $result = "Invalid password!";
-                echo json_encode(["result" => $result]);
+                echo json_encode(["pass_error" => $result]);
             }
         } else {
             //Response upon invalid username
             $result = "Invalid username!";
-            echo json_encode(["result" => $result]);
+            echo json_encode(["username_error" => $result]);
         }
     } else {
         //Response upon invalid credentials

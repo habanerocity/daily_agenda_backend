@@ -125,35 +125,6 @@ Here are the steps to run the script using various tools:
 source /path/to/create_daily_agenda_db.sql
 ```
 
-### Database Setup
-
-To set up the database for this project, you need to run the `create_daily_agenda_db.sql` script located in the `database` directory. This script will create the `daily_agenda` database and the `todos` and `user` tables.
-
-Here are the steps to run the script using various tools:
-
-#### MySQL Workbench
-1. Open MySQL Workbench and connect to your MySQL server with your username and password.
-2. Click on `File > Open SQL Script` and select the `create_daily_agenda_db.sql` script.
-3. Click on the lightning bolt icon to execute the script.
-
-#### phpMyAdmin
-1. Open phpMyAdmin and log in with your username and password.
-2. Click on the `Import` tab.
-3. Click on `Choose File` and select the `create_daily_agenda_db.sql` script.
-4. Click on `Go` to execute the script.
-
-#### MySQL Command Line Tool
-1. Open the MySQL command line tool and log in with your username and password.
-2. Use the `source` command to execute the script:
-
-```bash
-source /path/to/create_daily_agenda_db.sql
-```
-
-After running the script, the `daily_agenda` database should be set up with the `todos` and `user` tables.
-
-Remember to update the `.env` file with the correct database name (`daily_agenda`), your MySQL username, and password.
-
 ## API Endpoints
 
 ### User Registration

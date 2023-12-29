@@ -100,37 +100,6 @@ JWT_KEY=myjwtkey
 php -S localhost:8888
 ```
 
-Sure, here's how you can update the "Installation" section to include that information:
-
-```markdown
-### Installation
-
-1. Clone the backend repository.
-2. Install PHP dependencies: 
-
-```bash
-composer install
-```
-
-3. Create a `.env` file in the root of your project and configure your database connection:
-
-```bash
-DB_HOST=your-database-host
-DB_PORT=your-database-port
-DB_DATABASE=your-database-name
-DB_USER=your-database-user
-DB_PASSWORD=your-database-password
-JWT_KEY=myjwtkey
-```
-
-4. Start the PHP development server:
-
-```bash
-php -S localhost:8888
-```
-
-Please note that the PHP development server is intended for testing and development purposes. For production environments, it's recommended to use a proper web server like Apache or Nginx.
-
 ### Database Setup
 
 To set up the database for this project, you need to run the `create_daily_agenda_db.sql` script located in the `database` directory. This script will create the `daily_agenda` database and the `todos` and `user` tables.
@@ -156,9 +125,6 @@ Here are the steps to run the script using various tools:
 source /path/to/create_daily_agenda_db.sql
 ```
 
-Sure, here's how you can update the "Database Setup" section to include steps for executing the SQL script using MySQL Workbench, phpMyAdmin, and the MySQL command line tool:
-
-```markdown
 ### Database Setup
 
 To set up the database for this project, you need to run the `create_daily_agenda_db.sql` script located in the `database` directory. This script will create the `daily_agenda` database and the `todos` and `user` tables.

@@ -100,7 +100,7 @@ JWT_KEY=myjwtkey
 php -S localhost:8888
 ```
 
-### Database Setup
+## Database Setup
 
 To set up the database for this project, you need to run the `create_daily_agenda_db.sql` script located in the `database` directory. This script will create the `daily_agenda` database and the `todos` and `user` tables.
 

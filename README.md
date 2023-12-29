@@ -64,7 +64,7 @@ This project was developed using MAMP. If you're using MAMP or a similar local s
 - [Composer](https://getcomposer.org/download/)
 - [Firebase PHP-JWT library](https://github.com/firebase/php-jwt)
 
-## Environment Variables
+### Environment Variables
 
 This project uses the `vlucas/phpdotenv` package to load environment variables from a `.env` file. This file should be located in the root directory of the project.
 
@@ -100,7 +100,7 @@ JWT_KEY=myjwtkey
 php -S localhost:8888
 ```
 
-## Database Setup
+### Database Setup
 
 To set up the database for this project, you need to run the `create_daily_agenda_db.sql` script located in the `database` directory. This script will create the `daily_agenda` database and the `todos` and `user` tables.
 
@@ -269,15 +269,15 @@ Example response:
 }
 ```
 
-### Usage
+## Usage
 
 This backend serves as the API endpoint for the Daily Agenda front end. Ensure the front end is configured to make requests to this backend URL.
 
-### Technologies Used
+## Technologies Used
 
 The backend of Daily Agenda is built with PHP 7.4 and interacts with a MySQL 5.7 database. It uses JSON Web Tokens (JWT) for user authentication, with the Firebase PHP-JWT library version 5.2.0.
 
-### Contact
+## Contact
 
 For inquiries or questions, feel free to contact me at lindyo87@gmail.com. You can view the rest of my portfolio [here](https://www.lindyramirez.com).
 
